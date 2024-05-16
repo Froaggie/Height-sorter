@@ -1,0 +1,76 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class linkedlist:
+    def __init__(self):
+        self.head = None
+
+    def insert_sorter(self, data, index):
+        new_node = Node(data)
+        current_node = self.head
+        position = 0 
+        if position == index:
+            self.insert_sorter(data)
+        else:
+            while(current_node != None and position+1 != index):
+                position = position+1
+                current_node = current_node.next
+            
+            if current_node != None:
+                new_node.next = current_node.next
+                current_node.next = new_node
+            
+            else:
+                print("That index isn't here, sorry!")
+
+    def height_display(self):
+        current_node = self.head
+        while current_node:
+            feet = current_node // 12
+            inches = current_node % 12
+            print(f"{int(feet)} ft , {int(inches)} in")
+            current_node = current_node.next
+
+    def median_search(self):
+        slow_ptr = self.head
+        quick_ptr = self.head
+        while quick_ptr is not None and quick_ptr.next is not None:
+            slow_ptr = slow_ptr.next
+            quick_ptr = quick_ptr.next.next
+        return slow_ptr.data
+    
+def height_input():
+    heights = []
+    while True:
+        height_str = input("Hello! Please enter the heights in feet and inches! (Ex: 5'10 or 6'2). Enter 'done' when finished with the inputs!")
+        if height_str.lower() == 'done':
+            break
+        try:
+            feet, inches = height_str.split("'")
+            feet = float(feet)
+            inches = float(inches)
+            if feet >= 0 and 0 <= inches < 12:
+                total_inches = feet * 12 + inches
+                heights.append(total_inches)
+            else:
+                print("Sorry thats an invalid height! Please enter a valid height")
+        except ValueError:
+            print("Sorry, that input format is invalid! Please put your input in correctly.")
+    return heights
+
+height_inches = height_input()
+
+llist = linkedlist()
+for height in height_inches:
+    llist.insert_sorter(height)
+
+print("Here are all the heights in ascending order: \n")
+llist.print_heights()
+
+median_height = llist.find_median()
+median_height_feet = median_height // 12
+median_height_inches = median_height % 12
+
+print(f"\n The median height is: {median_height_feet} ft {median_height_inches} in")
